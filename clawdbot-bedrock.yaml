@@ -33,13 +33,20 @@ Parameters:
 
   InstanceType:
     Type: String
-    Default: "t3.medium"
+    Default: "t4g.medium"
     AllowedValues:
       - "t3.small"
       - "t3.medium"
       - "t3.large"
       - "t3.xlarge"
       - "c5.xlarge"
+      - "t4g.small"
+      - "t4g.medium"
+      - "t4g.large"
+      - "t4g.xlarge"
+      - "c6g.large"
+      - "c6g.xlarge"
+
 
   KeyPairName:
     Type: AWS::EC2::KeyPair::KeyName
@@ -70,25 +77,20 @@ Conditions:
   AllowSSH: !Not [!Equals [!Ref AllowedSSHCIDR, "127.0.0.1/32"]]
 
 Mappings:
-  RegionMap:
-    us-east-1:
-      AMI: "ami-0c7217cdde317cfec"
-    us-east-2:
-      AMI: "ami-0ea3c35c5c3284d82"
-    us-west-1:
-      AMI: "ami-0ce2cb35386fc22e9"
-    us-west-2:
-      AMI: "ami-0aff18ec83b58762f"
-    eu-west-1:
-      AMI: "ami-0e9085e60087ce171"
-    eu-central-1:
-      AMI: "ami-0084a47cc718c111a"
-    ap-southeast-1:
-      AMI: "ami-0497a974f8d5dcef8"
-    ap-northeast-1:
-      AMI: "ami-0d52744d6551d851e"
-    ap-south-1:
-      AMI: "ami-0dee22c13ea7a9a67"
+  # Architecture detection based on instance type
+  ArchitectureMap:
+    t3.small: { Arch: "amd64" }
+    t3.medium: { Arch: "amd64" }
+    t3.large: { Arch: "amd64" }
+    t3.xlarge: { Arch: "amd64" }
+    c5.xlarge: { Arch: "amd64" }
+    t4g.small: { Arch: "arm64" }
+    t4g.medium: { Arch: "arm64" }
+    t4g.large: { Arch: "arm64" }
+    t4g.xlarge: { Arch: "arm64" }
+    c6g.large: { Arch: "arm64" }
+    c6g.xlarge: { Arch: "arm64" }
+
 
 Resources:
   # ==================== Wait Condition ====================
@@ -304,7 +306,9 @@ Resources:
   ClawdbotInstance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: !Sub '{{resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id}}'
+      ImageId: !Sub 
+        - '{{resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/${Arch}/hvm/ebs-gp3/ami-id}}'
+        - Arch: !FindInMap [ArchitectureMap, !Ref InstanceType, Arch]
       InstanceType: !Ref InstanceType
       KeyName: !Ref KeyPairName
       IamInstanceProfile: !Ref ClawdbotInstanceProfile
@@ -342,7 +346,7 @@ Resources:
           
           # Install AWS CLI v2
           echo "[2/9] Installing AWS CLI..."
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-$(arch).zip" -o "awscliv2.zip"
           unzip -q awscliv2.zip
           ./aws/install
           rm -rf aws awscliv2.zip
@@ -634,8 +638,13 @@ Outputs:
   MonthlyCost:
     Description: "Estimated monthly cost (USD)"
     Value: !Sub |
-      EC2 (${InstanceType}): ~$30-40
+      EC2 (${InstanceType}): ~$20-40 (Graviton instances 20% cheaper)
       EBS (30GB): ~$2.40
       VPC Endpoints: ${!If [CreateEndpoints, "~$22 ($0.01/hour per endpoint)", "$0"]}
       Bedrock: Pay-per-use
-      Total: ~${!If [CreateEndpoints, "$55-65", "$33-43"]}/month
+      Total: ~${!If [CreateEndpoints, "$45-65", "$23-43"]}/month
+      Note: Graviton (ARM64) instances offer better price-performance ratio
+
+  InstanceArchitecture:
+    Description: "Instance architecture"
+    Value: !FindInMap [ArchitectureMap, !Ref InstanceType, Arch]
