@@ -1050,26 +1050,19 @@ Done? Say 'yes' to continue."
 #### If Microsoft Teams:
 
 ```
-"👔 Microsoft Teams Configuration (more complex):
+"👔 Microsoft Teams Configuration:
 
-This requires Azure Bot setup. Here's the quick version:
+⚠️ Microsoft Teams integration is more complex and requires:
+1. Azure Bot Channels Registration
+2. App ID, Client Secret, Tenant ID
+3. Public endpoint exposure (ngrok or domain)
 
-1. Install plugin on EC2:
-   npm install -g moltbot-msteams
+This is beyond the scope of quick setup.
 
-2. Create Azure Bot:
-   - Visit: https://portal.azure.com/
-   - Create 'Bot Channels Registration'
-   - Get: App ID, Client Secret, Tenant ID
+📖 Detailed guide: https://docs.molt.bot/channels/msteams
 
-3. Configure in Moltbot Web UI with credentials
-
-4. Expose endpoint (requires public URL or ngrok)
-
-📖 Full guide: https://docs.molt.bot/channels/msteams
-
-This is more involved. Want to try a simpler platform first (WhatsApp/Telegram)?
-Or say 'continue' for detailed Teams setup."
+Recommend trying WhatsApp or Telegram first for easier setup.
+Want to continue with Teams anyway? Say 'yes' for detailed steps."
 ```
 
 ### Step 7: Verify and Celebrate

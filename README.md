@@ -260,15 +260,11 @@ http://localhost:18789/?token=<your-token>
 
 #### Microsoft Teams
 
-1. **Install Plugin**: `npm install -g moltbot-msteams`
-2. **Create Azure Bot**: Visit [Azure Portal](https://portal.azure.com/)
-   - Create Bot Channels Registration
-   - Get App ID, Client Secret, Tenant ID
-3. **Configure**: In Web UI, add Microsoft Teams channel with credentials
-4. **Expose Endpoint**: Use ngrok or public URL for `/api/messages` (port 3978)
-5. **Test**: Message your bot in Teams
+**Microsoft Teams integration requires Azure Bot setup and is more complex.**
 
 📖 **Full guide**: https://docs.molt.bot/channels/msteams
+
+**Note**: This integration requires additional configuration beyond the scope of this quick start.
 
 #### Lark / Feishu (飞书) - Community Plugin
 

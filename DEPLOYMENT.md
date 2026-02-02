@@ -161,10 +161,10 @@ For detailed guides, visit [Moltbot Documentation](https://docs.molt.bot/channel
 4. Invite bot to channels
 
 ### Microsoft Teams
-1. Install plugin: `npm install -g moltbot-msteams`
-2. Create Azure Bot with App ID and secret
-3. Configure in Web UI
-4. Full guide: https://docs.molt.bot/channels/msteams
+
+**Microsoft Teams integration requires Azure Bot setup.**
+
+📖 **Full guide**: https://docs.molt.bot/channels/msteams
 
 ## Verification
 
