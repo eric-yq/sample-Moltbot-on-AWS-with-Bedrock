@@ -397,7 +397,7 @@ ClawdbotModel:
   - anthropic.claude-3-5-sonnet-20241022-v2:0  # 稳定备选
   - anthropic.claude-3-5-haiku-20241022-v1:0   # 更快，更便宜
   - anthropic.claude-3-haiku-20240307-v1:0     # 最快/最便宜
-  - us.moonshotai.kimi-k2.5                    # 多模态智能体，262K 上下文
+  - moonshotai.kimi-k2.5                       # 多模态智能体，262K 上下文
 ```
 
 **模型选择指南**：

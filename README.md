@@ -464,7 +464,7 @@ ClawdbotModel:
   - global.anthropic.claude-haiku-4-5-20251001-v1:0   # Fast and efficient
   - us.deepseek.r1-v1:0                         # Open-source reasoning
   - us.meta.llama3-3-70b-instruct-v1:0          # Open-source alternative
-  - us.moonshotai.kimi-k2.5                     # Multimodal agentic, 262K context
+  - moonshotai.kimi-k2.5                        # Multimodal agentic, 262K context
 ```
 
 **Model Selection Guide**:
