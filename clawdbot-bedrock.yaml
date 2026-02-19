@@ -418,19 +418,35 @@ Resources:
           fi
           UBUNTU_SCRIPT
           
-          # Configure AWS region
+          # Configure AWS region (using IMDSv2 for security)
           echo "[6/9] Configuring AWS..."
-          sudo -u ubuntu aws configure set region "$AWS_REGION" || echo "AWS configure failed, continuing..."
-          sudo -u ubuntu aws configure set output json || echo "AWS configure failed, continuing..."
+          sudo -u ubuntu mkdir -p /home/ubuntu/.aws
+          
+          # Get region using IMDSv2 (already fetched at top, reuse $AWS_REGION)
+          sudo -u ubuntu cat > /home/ubuntu/.aws/config << EOF
+[default]
+region = $AWS_REGION
+output = json
+EOF
+          chown -R ubuntu:ubuntu /home/ubuntu/.aws
+          chmod 600 /home/ubuntu/.aws/config
           
           # Configure environment variables
           echo "[7/9] Configuring environment variables..."
           cat >> /home/ubuntu/.bashrc << EOF
-          export AWS_REGION=$AWS_REGION
-          export AWS_PROFILE=default
-          export OPENCLAW_MODEL=${OpenClawModel}
-          export OPENCLAW_USE_BEDROCK=true
-          EOF
+export AWS_REGION=$AWS_REGION
+export AWS_DEFAULT_REGION=$AWS_REGION
+export AWS_PROFILE=default
+export OPENCLAW_MODEL=${OpenClawModel}
+export OPENCLAW_USE_BEDROCK=true
+EOF
+          
+          # Create systemd environment file for services
+          sudo -u ubuntu mkdir -p /home/ubuntu/.config/environment.d
+          sudo -u ubuntu cat > /home/ubuntu/.config/environment.d/aws.conf << EOF
+AWS_REGION=$AWS_REGION
+AWS_DEFAULT_REGION=$AWS_REGION
+EOF
           
           # 启用 systemd linger
           loginctl enable-linger ubuntu
