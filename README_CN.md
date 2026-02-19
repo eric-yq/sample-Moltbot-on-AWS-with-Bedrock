@@ -280,7 +280,7 @@ clawdbot skills installed
 始终以友好的语气回复。
 ```
 
-详细指南请访问 [molt 文档](https://docs.molt.bot/)。
+详细指南请访问 [openclaw 文档](https://docs.clawd.bot/)。
 
 ## 架构
 
@@ -427,7 +427,7 @@ CreateVPCEndpoints: false  # 成本优化
 
 ## 资源
 
-- [openclaw 文档](https://docs.molt.bot/)
+- [openclaw 文档](https://docs.clawd.bot/)
 - [openclaw GitHub](https://github.com/openclaw/openclaw)
 - [Amazon Bedrock](https://aws.amazon.com/bedrock/)
 - [SSM Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)
@@ -627,7 +627,7 @@ Clawdbot 本身有独立的许可证。参见 [Clawdbot License](https://github.
 
 ## 资源
 
-- [openclaw 文档](https://docs.molt.bot/)
+- [openclaw 文档](https://docs.clawd.bot/)
 - [openclaw GitHub](https://github.com/openclaw/openclaw)
 - [Amazon Bedrock](https://aws.amazon.com/bedrock/)
 - [SSM Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)

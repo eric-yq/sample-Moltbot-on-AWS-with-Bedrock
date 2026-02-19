@@ -203,7 +203,7 @@ http://localhost:18789/?token=<your-token>
 
 ### Connect Messaging Platforms
 
-**For detailed configuration guides, visit [openclaw Official Documentation](https://docs.molt.bot/).**
+**For detailed configuration guides, visit [openclaw Official Documentation](https://docs.clawd.bot/).**
 
 #### WhatsApp (Recommended)
 
@@ -216,7 +216,7 @@ http://localhost:18789/?token=<your-token>
 
 **Tip**: Use a dedicated phone number or enable `selfChatMode` for personal number.
 
-📖 **Full guide**: https://docs.molt.bot/channels/whatsapp
+📖 **Full guide**: https://docs.clawd.bot/channels/whatsapp
 
 #### Telegram
 
@@ -230,7 +230,7 @@ http://localhost:18789/?token=<your-token>
 3. **Configure**: In Web UI, add Telegram channel with your bot token
 4. **Test**: Send `/start` to your bot on Telegram
 
-📖 **Full guide**: https://docs.molt.bot/channels/telegram
+📖 **Full guide**: https://docs.clawd.bot/channels/telegram
 
 #### Discord
 
@@ -246,7 +246,7 @@ http://localhost:18789/?token=<your-token>
 3. **Configure**: In Web UI, add Discord channel with bot token
 4. **Test**: Mention your bot in a Discord channel
 
-📖 **Full guide**: https://docs.molt.bot/channels/discord
+📖 **Full guide**: https://docs.clawd.bot/channels/discord
 
 #### Slack
 
@@ -256,13 +256,13 @@ http://localhost:18789/?token=<your-token>
 4. **Configure**: In Web UI, add Slack channel
 5. **Test**: Invite bot to a channel and mention it
 
-📖 **Full guide**: https://docs.molt.bot/channels/slack
+📖 **Full guide**: https://docs.clawd.bot/channels/slack
 
 #### Microsoft Teams
 
 **Microsoft Teams integration requires Azure Bot setup and is more complex.**
 
-📖 **Full guide**: https://docs.molt.bot/channels/msteams
+📖 **Full guide**: https://docs.clawd.bot/channels/msteams
 
 **Note**: This integration requires additional configuration beyond the scope of this quick start.
 
@@ -348,7 +348,7 @@ Always respond in a friendly tone.
 
 Configure different agents for different channels in Web UI.
 
-For detailed guides, visit [openclaw Documentation](https://docs.molt.bot/).
+For detailed guides, visit [openclaw Documentation](https://docs.clawd.bot/).
 
 ## Architecture
 
@@ -590,7 +590,7 @@ This deployment template is provided as-is. Clawdbot itself is licensed under it
 
 ## Resources
 
-- [openclaw Official Docs](https://docs.molt.bot/)
+- [openclaw Official Docs](https://docs.clawd.bot/)
 - [openclaw GitHub](https://github.com/openclaw/openclaw)
 - [Amazon Bedrock Docs](https://docs.aws.amazon.com/bedrock/)
 - [SSM Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)
