@@ -31,6 +31,7 @@ Parameters:
       - "global.anthropic.claude-sonnet-4-20250514-v1:0"
       - "us.deepseek.r1-v1:0"
       - "us.meta.llama3-3-70b-instruct-v1:0"
+      - "moonshotai.kimi-k2.5"
 
   InstanceType:
     Type: String
@@ -184,13 +185,27 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-vpce-sg"
 
-  # Bedrock Runtime VPC Endpoint
+  # Bedrock Runtime VPC Endpoint (Converse API)
   BedrockRuntimeVPCEndpoint:
     Type: AWS::EC2::VPCEndpoint
     Condition: CreateEndpoints
     Properties:
       VpcId: !Ref OpenClawVPC
       ServiceName: !Sub 'com.amazonaws.${AWS::Region}.bedrock-runtime'
+      VpcEndpointType: Interface
+      PrivateDnsEnabled: true
+      SubnetIds:
+        - !Ref PrivateSubnet
+      SecurityGroupIds:
+        - !Ref VPCEndpointSecurityGroup
+
+  # Bedrock Mantle VPC Endpoint (OpenAI-compatible API for Project Mantle models like Kimi K2.5)
+  BedrockMantleVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Condition: CreateEndpoints
+    Properties:
+      VpcId: !Ref OpenClawVPC
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.bedrock-mantle'
       VpcEndpointType: Interface
       PrivateDnsEnabled: true
       SubnetIds:
@@ -674,6 +689,6 @@ Outputs:
     Value: !Sub |
       EC2 (${InstanceType}): ~$30-40
       EBS (30GB): ~$2.40
-      VPC Endpoints: ${!If [CreateEndpoints, "~$22 ($0.01/hour per endpoint)", "$0"]}
+      VPC Endpoints: ${!If [CreateEndpoints, "~$29 ($0.01/hour x 5 endpoints)", "$0"]}
       Bedrock: Pay-per-use
-      Total: ~${!If [CreateEndpoints, "$55-65", "$33-43"]}/month
+      Total: ~${!If [CreateEndpoints, "$62-72", "$33-43"]}/month

@@ -35,6 +35,7 @@ Parameters:
       - "global.anthropic.claude-sonnet-4-20250514-v1:0"
       - "us.deepseek.r1-v1:0"
       - "us.meta.llama3-3-70b-instruct-v1:0"
+      - "moonshotai.kimi-k2.5"
 
   MacInstanceType:
     Type: String
@@ -216,13 +217,27 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-vpce-sg"
 
-  # Bedrock Runtime VPC Endpoint
+  # Bedrock Runtime VPC Endpoint (Converse API)
   BedrockRuntimeVPCEndpoint:
     Type: AWS::EC2::VPCEndpoint
     Condition: CreateEndpoints
     Properties:
       VpcId: !Ref OpenClawVPC
       ServiceName: !Sub 'com.amazonaws.${AWS::Region}.bedrock-runtime'
+      VpcEndpointType: Interface
+      PrivateDnsEnabled: true
+      SubnetIds:
+        - !Ref PrivateSubnet
+      SecurityGroupIds:
+        - !Ref VPCEndpointSecurityGroup
+
+  # Bedrock Mantle VPC Endpoint (OpenAI-compatible API for Project Mantle models like Kimi K2.5)
+  BedrockMantleVPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Condition: CreateEndpoints
+    Properties:
+      VpcId: !Ref OpenClawVPC
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.bedrock-mantle'
       VpcEndpointType: Interface
       PrivateDnsEnabled: true
       SubnetIds:
@@ -766,9 +781,9 @@ Outputs:
     Value: !Sub |
       Mac Dedicated Host (${MacInstanceType}): ~$650-1100/month (24hr minimum)
       EBS (100GB): ~$8
-      VPC Endpoints: ${!If [CreateEndpoints, "~$22 ($0.01/hour per endpoint)", "$0"]}
+      VPC Endpoints: ${!If [CreateEndpoints, "~$29 ($0.01/hour x 5 endpoints)", "$0"]}
       Bedrock: Pay-per-use
-      Total: ~${!If [CreateEndpoints, "$680-1130", "$658-1108"]}/month
+      Total: ~${!If [CreateEndpoints, "$687-1137", "$658-1108"]}/month
       Note: Mac instances have 24-hour minimum allocation period
 
   ImportantNotes:
